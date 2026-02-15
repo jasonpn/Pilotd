@@ -4,6 +4,10 @@ import ShowCard from './components/ShowCard'
 import './App.css'
 import { useDebounce } from 'react-use'
 import {CircularProgress} from '@mui/material'
+import {BrowserRouter} from 'react-router'
+import {Route, Routes} from 'react-router';
+import Detail from './components/Detail.jsx'
+
 
 const BASE_API_URL = 'https://api.themoviedb.org/3/'
 const DISCOVER_API_URL = `discover/tv?include_adult=true&include_null_first_air_dates=false&sort_by=popularity.desc`;
@@ -19,7 +23,6 @@ const API_OPTIONS = {
 
 function App() {
     const [showList, setShowList] = useState([]);
-    //const [state, setState] = useState({})
     const [searchVal, setSearchVal] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -62,15 +65,9 @@ function App() {
         fetchShows(debouncedSearch);
     },[debouncedSearch]);
 
-    //console.log(showList);
-
+    console.log(showList);
+    //console.log(debouncedSearch);
     //console.log(searchVal);
-    console.log(debouncedSearch);
-    /*const search = (e) => {
-        if (e.key === 'Enter') {
-
-        }
-    }*/
 
   return (
     <main>
@@ -80,6 +77,7 @@ function App() {
             <h1 className="text-4xl font-bold text-white">
                 Pilotd
             </h1>
+
             <SearchBar fetchedData={showList} searchVal={searchVal} setSearchVal={setSearchVal} />
             <section className="all-shows">
                 <h2 className="text-xl font-bold text-white">All Shows</h2>
@@ -99,6 +97,14 @@ function App() {
                 )}
 
             </section>
+
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/show/:id' element={<Detail />} />
+                </Routes>
+            </BrowserRouter>
+
+
         </div>
     </main>
   )

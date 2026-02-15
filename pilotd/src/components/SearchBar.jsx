@@ -1,6 +1,5 @@
-import react, {useEffect} from 'react';
-import { useState } from 'react'
-import {Box, IconButton, TextField, Typography, Stack, Autocomplete, InputAdornment} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {TextField, Typography, Stack, Autocomplete, InputAdornment} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
 function SearchBar({ fetchedData, searchVal, setSearchVal }) {

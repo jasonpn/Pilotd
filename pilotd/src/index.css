@@ -36,11 +36,11 @@
         }
 
         & .content {
-            @apply mt-2 flex flex-row items-center flex-wrap gap-2;
+            @apply mt-2 flex flex-col items-center flex-wrap gap-2;
         }
 
         & .rating {
-            @apply flex flex-row items-center gap-1;
+            @apply flex flex-row items-center gap-1 float-right;
         }
 
         & .rating img {
@@ -60,7 +60,12 @@
         }
 
         & .content .year {
-            @apply text-light-100 font-medium text-base float-right;
+            @apply text-light-100 font-medium text-base;
+        }
+
+        & .content .title {
+            @apply text-white font-bold text-base line-clamp-1 whitespace-pre-wrap;
+
         }
 
     }
