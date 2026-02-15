@@ -13,3 +13,4 @@ To Add:
 - Watchlist, watched, and favorite lists for users.
 - Review/discussion section in details page for each show.
 - Live chat capabilities for users to message each other.
+- N8N AI show recommender agent running locally with Ollama (Can change to paid models/API)
