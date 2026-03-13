@@ -17,6 +17,6 @@ To Add:
 - N8N AI show recommender agent running locally with Ollama (Can change to paid models/API)
 
 
-Install packages: npm install
+Install packages: npm install <br>
 To Run: npm run dev
 
