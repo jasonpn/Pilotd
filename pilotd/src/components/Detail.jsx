@@ -193,7 +193,7 @@ const Detail = () => {
                                 </div>
                             </div>
 
-                            {/* Info Row - Hide on very small screens */}
+                            {/* Info Row Hide on very small screens */}
                             <div className="hidden sm:flex items-center gap-3 md:gap-6 text-gray-300 mb-3 md:mb-4 flex-wrap text-xs sm:text-sm">
                                 <div className="flex items-center gap-1 sm:gap-2">
                                     <CalendarTodayIcon sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }} />
