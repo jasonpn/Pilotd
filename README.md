@@ -7,6 +7,7 @@ Features:
 - Displaying shows along with its poster image, year released, and rating.
 - Autocomplete search bar, categorized alphabetically, that allows users to search for through thousands of shows within the database.
 - Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
+- Self-hosted N8N AI show recommender agent with Ollama and Docker
 
 
 To Add:
@@ -14,7 +15,6 @@ To Add:
 - Watchlist, watched, and favorite lists for users.
 - Review/discussion section in details page for each show.
 - Live chat capabilities for users to message each other.
-- N8N AI show recommender agent running locally with Ollama (Can change to paid models/API)
 
 
 Install packages: npm install <br>
