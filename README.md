@@ -1,7 +1,7 @@
 # Pilotd
  Social platform for everyone to discover, share, and discuss TV and streaming shows
 
-Using ReactJS, Tailwind CSS, and The Movie Database (TMDB) API.
+Using ReactJS, Tailwind CSS, N8N, Docker, Ollama, and The Movie Database (TMDB) API.
 
 Features:
 - Displaying shows along with its poster image, year released, and rating.
