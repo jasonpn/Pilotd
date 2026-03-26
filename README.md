@@ -1,5 +1,5 @@
 # Pilotd
- Social platform for everyone to discover, share, and discuss TV and streaming shows
+ Social platform and media discovery engine for discovering, rating, and discussing TV and streaming series.
 
 Using ReactJS, Tailwind CSS, Figma, N8N, Docker, Ollama, and The Movie Database (TMDB) API.
 
@@ -11,10 +11,10 @@ Features:
 
 
 To Add:
-- User authentication, login, and keeping a user database.
-- Watchlist, watched, and favorite lists for users.
+- MERN stack user authentication and database.
+- Watchlist, watched, and favorite lists.
 - Review/discussion section in details page for each show.
-- Live chat capabilities for users to message each other.
+- Live chat capabilities for users to message each other during show runnings.
 
 
 Install packages: npm install <br>
