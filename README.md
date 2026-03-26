@@ -11,7 +11,8 @@ Features:
 
 
 To Add:
-- MERN stack user authentication and database.
+- User authentication and database.
+- Rating system database
 - Watchlist, watched, and favorite lists.
 - Review/discussion section in details page for each show.
 - Live chat capabilities for users to message each other during show runnings.
