@@ -9,7 +9,6 @@ Features:
 - Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
 - Self-hosted N8N AI show recommender agent with Ollama and Docker
 
-
 To Add:
 - User authentication and database.
 - Rating system database
@@ -18,6 +17,29 @@ To Add:
 - Live chat capabilities for users to message each other during show runnings.
 
 
+
 Install packages: npm install <br>
 To Run: npm run dev
 
+<details>
+   <summary>View screenshots</summary>
+
+ 
+<img width="1124" height="967" alt="Screenshot 2026-03-30 at 3 05 16 PM (2)" src="https://github.com/user-attachments/assets/322be1fa-9bfc-4366-a38f-7b923e9ec7ae" />
+<br/>
+<br/>
+
+<p>AI Show Recommendation Agent</p>
+
+<img width="1235" height="944" alt="Screenshot 2026-03-30 at 3 17 57 PM (2)" src="https://github.com/user-attachments/assets/587bff91-9759-4e54-a59f-9e8a21c5700a" />
+<br/>
+<br/>
+<p>Show details</p>
+
+<img width="1125" height="957" alt="Screenshot 2026-03-30 at 3 05 30 PM (2)" src="https://github.com/user-attachments/assets/aa1fa94d-b8fc-418e-a826-ed63ad9ac147" />
+<br/>
+<br/>
+<p>User rating</p>
+<img width="817" height="601" alt="Screenshot 2026-03-30 at 3 23 21 PM" src="https://github.com/user-attachments/assets/da0b2519-aeb2-44e8-beae-920f2a7abdb5" />
+
+</details>
