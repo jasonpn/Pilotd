@@ -21,7 +21,7 @@ To Add:
 Install packages: npm install <br>
 To Run: npm run dev
 
-<img width="1235" height="944" alt="Screenshot 2026-03-30 at 3 17 57 PM (2)" src="https://github.com/user-attachments/assets/587bff91-9759-4e54-a59f-9e8a21c5700a" />
+<img width="1253" height="932" alt="Screenshot 2026-03-30 at 4 08 31 PM (2)" src="https://github.com/user-attachments/assets/9de6e454-6713-487e-9d4e-45ec2681ec51" />
 <br/>
 <br/>
 
