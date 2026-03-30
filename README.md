@@ -16,10 +16,7 @@ To Add:
 - Review/discussion section in details page for each show.
 - Live chat capabilities for users to message each other during show runnings.
 
-
-
-Install packages: npm install <br>
-To Run: npm run dev
+<br/>
 
 <img width="1253" height="932" alt="Screenshot 2026-03-30 at 4 08 31 PM (2)" src="https://github.com/user-attachments/assets/9de6e454-6713-487e-9d4e-45ec2681ec51" />
 <br/>
