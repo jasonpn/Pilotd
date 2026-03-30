@@ -7,7 +7,7 @@ Features:
 - Displaying shows along with its poster image, year released, and rating.
 - Autocomplete search bar, categorized alphabetically, that allows users to search for through thousands of shows within the database.
 - Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
-- Self-hosted N8N AI show recommender agent with Ollama and Docker
+- Self-hosted AI show recommender agent with Ollama, N8N and Docker
 
 To Add:
 - User authentication and database.
