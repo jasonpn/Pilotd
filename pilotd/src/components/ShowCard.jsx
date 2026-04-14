@@ -17,7 +17,7 @@ const ShowCard = ({show:
                          alt={name} />
                     <div className="show-card-overlay">
                         <div className="show-card-rating-overlay">
-                            <LanguageIcon lng ={{color: '#FF9933'}} />
+                            <LanguageIcon lng ={{color: '#D87B53'}} />
                             <span>{original_language}</span>
                         </div>
                     </div>
@@ -29,7 +29,7 @@ const ShowCard = ({show:
 
                         <div className="rating">
                             <p className="year">{first_air_date.split('-')[0]}</p>
-                            <StarIcon sx={{color: '#FF9933'}} />
+                            <StarIcon sx={{color: '#D87B53'}} />
                             <p>{vote_average.toFixed(1)}</p>
                         </div>
                     </div>

@@ -1,14 +1,18 @@
-import React, {useEffect, useState} from 'react'
-import SearchBar from './components/SearchBar'
-import ShowCard from './components/ShowCard'
-import './App.css'
-import { useDebounce } from 'react-use'
-import {CircularProgress} from '@mui/material'
-import {BrowserRouter, Routes, Route} from 'react-router'
-import Detail from './components/Detail.jsx'
-import Agent from './components/Agent.jsx'
+import React, { useEffect, useState } from 'react';
+import SearchBar from './components/SearchBar';
+import ShowCard from './components/ShowCard';
+import './App.css';
+import { useDebounce } from 'react-use';
+import { CircularProgress } from '@mui/material';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Detail from './components/Detail';
+import Agent from './components/Agent';
+import { AuthProvider } from './AuthContext';
+import Header from './components/Header';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
-const BASE_API_URL = 'https://api.themoviedb.org/3/'
+const BASE_API_URL = 'https://api.themoviedb.org/3/';
 const DISCOVER_API_URL = 'discover/tv?include_adult=true&include_null_first_air_dates=false&sort_by=popularity.desc';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -28,82 +32,87 @@ function HomePage() {
 
     useDebounce(() => setDebouncedSearch(searchVal), 500, [searchVal]);
 
-    const fetchShows = async (query='') => {
+    const fetchShows = async (query = '') => {
         setIsLoading(true);
         let endpoint;
 
-        if(query.trim()){
+        if (query.trim()) {
             endpoint = `${BASE_API_URL}search/tv?query=${encodeURIComponent(query)}&include_adult=true`;
-        } else{
-            endpoint = `${BASE_API_URL}${DISCOVER_API_URL}`
+        } else {
+            endpoint = `${BASE_API_URL}${DISCOVER_API_URL}`;
         }
 
-        try{
+        try {
             const response = await fetch(endpoint, API_OPTIONS);
 
-            if(!response.ok) {
+            if (!response.ok) {
                 throw Error(response.statusText);
             }
             const json = await response.json();
 
-            if(json.success === false) {
+            if (json.success === false) {
                 console.error(json.error);
                 setShowList([]);
                 return;
             }
             setShowList(json.results);
-        } catch(error) {
+        } catch (error) {
             console.error(`Error fetching TV shows: ${error}`);
             setShowList([]);
-        } finally{
+        } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         fetchShows(debouncedSearch);
-    },[debouncedSearch]);
-
-    console.log(showList);
+    }, [debouncedSearch]);
 
     return (
-        <main>
-            <div className="pattern" />
+        <>
+            <Header />
+            <main>
+                <div className="pattern" />
 
-            <div className="wrapper">
-                <h1 className="text-4xl font-bold text-white">Pilotd</h1>
+                <div className="wrapper">
+                    <h1 className="text-4xl font-bold text-white">Pilotd</h1>
 
-                <SearchBar fetchedData={showList} searchVal={searchVal} setSearchVal={setSearchVal} />
-                <section className="all-shows">
-                    <h2 className="text-xl font-bold text-white">All Shows</h2>
+                    <SearchBar fetchedData={showList} searchVal={searchVal} setSearchVal={setSearchVal} />
+                    <section className="all-shows">
+                        <h2 className="text-xl font-bold text-white">All Shows</h2>
 
-                    {isLoading ? (
-                        <CircularProgress color="inherit" />
-                    ) : (
-                        <ul className="shows-grid">
-                            {showList.length > 0 ? (
-                                showList.map((show) => <ShowCard key={show.id} show={show} />)
-                            ) : (
-                                <p className="text-xl font-bold text-white">No shows found.</p>
-                            )}
-                        </ul>
-                    )}
-                </section>
-            </div>
+                        {isLoading ? (
+                            <CircularProgress color="inherit" />
+                        ) : (
+                            <ul className="shows-grid">
+                                {showList.length > 0 ? (
+                                    showList.map((show) => <ShowCard key={show.id} show={show} />)
+                                ) : (
+                                    <p className="text-xl font-bold text-white">No shows found.</p>
+                                )}
+                            </ul>
+                        )}
+                    </section>
+                </div>
 
-            <Agent />
-        </main>
+                <Agent />
+            </main>
+        </>
     );
 }
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/show/:id" element={<Detail />} />
-            </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/show/:id" element={<Detail />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

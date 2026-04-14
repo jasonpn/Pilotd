@@ -7,6 +7,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import TvIcon from '@mui/icons-material/Tv'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import Header from './Header';
+
 
 const BASE_API_URL = 'https://api.themoviedb.org/3/'
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p'
@@ -56,7 +58,7 @@ const Detail = () => {
 
                 // Fetch similar shows
                 const similarResponse = await fetch(
-                    `${BASE_API_URL}tv/${id}/similar`,
+                    `${BASE_API_URL}tv/${id}/recommendations`,
                     API_OPTIONS
                 );
                 if (similarResponse.ok) {
@@ -119,6 +121,8 @@ const Detail = () => {
         : '/no-movie.png';
 
     return (
+        <>
+        <Header />
         <div className="min-h-screen bg-[#14181c]">
             {/* Back Button */}
             <div className="container mx-auto px-4 pt-4 max-w-7xl">
@@ -170,7 +174,7 @@ const Detail = () => {
 
                             <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-4 flex-wrap">
                                 <div className="flex items-center gap-1">
-                                    <StarIcon sx={{ color: '#FF9933', fontSize: { xs: '1rem', sm: '1.25rem' } }} />
+                                    <StarIcon sx={{ color: '#D87B53', fontSize: { xs: '1rem', sm: '1.25rem' } }} />
                                     <span className="text-white font-semibold text-sm sm:text-base">
                                         {show.vote_average?.toFixed(1) || 'N/A'}
                                     </span>
@@ -224,9 +228,9 @@ const Detail = () => {
                                             className="transition-transform hover:scale-110"
                                         >
                                             {userRating && star <= userRating ? (
-                                                <StarIcon sx={{ color: '#00e054', fontSize: { xs: '1.25rem', sm: '1.5rem' } }} />
+                                                <StarIcon sx={{ color: '#DCB35A', fontSize: { xs: '1.25rem', sm: '1.5rem' } }} />
                                             ) : (
-                                                <StarBorderIcon sx={{ color: '#00e054', fontSize: { xs: '1.25rem', sm: '1.5rem' }, '&:hover': { color: '#00c030' } }} />
+                                                <StarBorderIcon sx={{ color: '#DCB35A', fontSize: { xs: '1.25rem', sm: '1.5rem' }, '&:hover': { color: '#D87B53' } }} />
                                             )}
                                         </button>
                                     ))}
@@ -271,7 +275,7 @@ const Detail = () => {
                                     className="transition-transform active:scale-90"
                                 >
                                     {userRating && star <= userRating ? (
-                                        <StarIcon sx={{ color: '#00e054', fontSize: '1.5rem' }} />
+                                        <StarIcon sx={{ color: '#DCB35A', fontSize: '1.5rem' }} />
                                     ) : (
                                         <StarBorderIcon sx={{ color: '#6b7280', fontSize: '1.5rem' }} />
                                     )}
@@ -314,10 +318,10 @@ const Detail = () => {
                                 padding: { xs: '12px 16px', sm: '12px 16px' }
                             },
                             '& .Mui-selected': {
-                                color: '#00c030 !important'
+                                color: '#89BAA2 !important'
                             },
                             '& .MuiTabs-indicator': {
-                                backgroundColor: '#00e054'
+                                backgroundColor: '#89BAA2'
                             }
                         }}
                     >
@@ -363,7 +367,7 @@ const Detail = () => {
                             seasons.map((season) => (
                                 <div
                                     key={season.id}
-                                    className="bg-[#2c3440] border border-gray-700 rounded-lg overflow-hidden hover:border-[#00c030] transition-colors"
+                                    className="bg-[#2c3440] border border-gray-700 rounded-lg overflow-hidden hover:border-[#89BAA2] transition-colors"
                                 >
                                     <div className="flex gap-3 sm:gap-4 p-3 sm:p-4">
                                         <img
@@ -422,7 +426,7 @@ const Detail = () => {
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                                     </div>
-                                    <h3 className="text-white text-xs sm:text-sm font-medium group-hover:text-[#00c030] transition-colors line-clamp-2">
+                                    <h3 className="text-white text-xs sm:text-sm font-medium group-hover:text-[#89BAA2] transition-colors line-clamp-2">
                                         {similarShow.name}
                                     </h3>
                                     <div className="flex items-center gap-1 mt-1">
@@ -440,6 +444,7 @@ const Detail = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 
