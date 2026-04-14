@@ -8,17 +8,18 @@ Features:
 - Autocomplete search bar, categorized alphabetically, that allows users to search for through thousands of shows within the database.
 - Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
 - Self-hosted AI show recommender agent with Ollama, N8N and Docker
+- User authentication and database, managed with Supabase.
+
 
 To Add:
-- User authentication and database.
 - Rating system database
 - Watchlist, watched, and favorite lists.
 - Review/discussion section in details page for each show.
 - Live chat capabilities for users to message each other during show runnings.
 
 <br/>
+<img width="1661" height="965" alt="Screenshot 2026-04-13 at 5 15 19 PM (2)" src="https://github.com/user-attachments/assets/0fc5a9d9-4353-41e8-bca3-e5f28897b618" />
 
-<img width="1253" height="932" alt="Screenshot 2026-03-30 at 4 08 31 PM (2)" src="https://github.com/user-attachments/assets/9de6e454-6713-487e-9d4e-45ec2681ec51" />
 <br/>
 <br/>
 
@@ -26,17 +27,20 @@ To Add:
    <summary><h2>View more screenshots</h2></summary>
 
  <h3>Homepage</h3>
-<img width="1124" height="967" alt="Screenshot 2026-03-30 at 3 05 16 PM (2)" src="https://github.com/user-attachments/assets/322be1fa-9bfc-4366-a38f-7b923e9ec7ae" />
+ <img width="1390" height="996" alt="Screenshot 2026-04-13 at 5 18 33 PM (2)" src="https://github.com/user-attachments/assets/dc3f0407-50c8-4d9e-82a4-3777db0fa1a8" />
+
 <br/>
 <br/>
 
-<h3>Show details</h3>
+<h3>User signup</h3>
 
-<img width="1125" height="957" alt="Screenshot 2026-03-30 at 3 05 30 PM (2)" src="https://github.com/user-attachments/assets/aa1fa94d-b8fc-418e-a826-ed63ad9ac147" />
+<img width="563" height="569" alt="Screenshot 2026-04-13 at 5 15 49 PM (2)" src="https://github.com/user-attachments/assets/431df1f2-2490-4b7b-aff4-2c2923133238" />
+
 <br/>
 <br/>
 
-<h3>User rating</h3>
-<img width="817" height="601" alt="Screenshot 2026-03-30 at 3 23 21 PM" src="https://github.com/user-attachments/assets/da0b2519-aeb2-44e8-beae-920f2a7abdb5" />
+<h3>User login</h3>
+<img width="506" height="483" alt="Screenshot 2026-04-13 at 5 15 56 PM (2)" src="https://github.com/user-attachments/assets/13020c2a-2cff-4ea2-afb4-98d2b09b98d2" />
+
 
 </details>
