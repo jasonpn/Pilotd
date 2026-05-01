@@ -329,9 +329,6 @@ function HomePage() {
                                     {displayName}
                                 </span>
                             </h1>
-                            <p className="text-[#89BAA2] text-sm mb-8">
-                                What are you watching tonight?
-                            </p>
                         </>
                     ) : (
                         <>

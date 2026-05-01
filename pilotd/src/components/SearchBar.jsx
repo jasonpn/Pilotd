@@ -34,7 +34,7 @@ function SearchBar({ searchVal, setSearchVal, onSearch }) {
                            hover:border-[#DCB35A]/30 focus-within:border-[#DCB35A]/50
                            focus-within:shadow-[0_0_0_3px_rgba(220,179,90,0.10)]"
             >
-                {/* Clickable search icon — triggers immediate fetch */}
+                {/* Clickable search icon triggers immediate fetch */}
                 <button
                     onClick={handleIconClick}
                     className="flex-shrink-0 text-[#89BAA2] hover:text-[#D87B53] transition-colors"
