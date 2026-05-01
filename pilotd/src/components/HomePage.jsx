@@ -140,33 +140,6 @@ const ShowRow = ({ title, shows, loading, emptyLabel, renderLabel, normalise }) 
     );
 };
 
-// ── Friend attribution label ───────────────────────────────────────────────────
-
-/**
- * Small avatar + display name shown beneath each friend-activity card.
- * Extracted so it can be passed as renderLabel without inline JSX clutter.
- */
-const FriendLabel = ({ entry }) => {
-    const displayName = entry.user_profiles?.display_name ?? 'Friend';
-    const avatarUrl   = entry.user_profiles?.avatar_url   ?? null;
-
-    return (
-        <div className="flex items-center gap-1.5 px-0.5">
-            <div className="w-4 h-4 rounded-full overflow-hidden bg-[#2c3440] flex-shrink-0
-                            flex items-center justify-center border border-[#DCB35A]/10">
-                {avatarUrl ? (
-                    <img src={avatarUrl} alt={displayName} className="w-full h-full object-cover" />
-                ) : (
-                    <PersonIcon sx={{ fontSize: 10, color: '#89BAA2' }} />
-                )}
-            </div>
-            <span className="text-xs text-[#89BAA2] truncate">{displayName}</span>
-        </div>
-    );
-};
-
-// ── CommunityFeed replaced by ShowRow + ReviewerLabel below ──────────────────
-
 // ── ReviewerLabel — shown beneath each card in the community reviews row ────────
 
 const ReviewerLabel = ({ entry }) => {
@@ -408,7 +381,11 @@ function HomePage() {
                                             </Link>
                                         </span>
                                     }
-                                    renderLabel={(entry) => <FriendLabel entry={entry} />}
+                                    renderLabel={(entry) => <ReviewerLabel entry={entry} />}
+                                    normalise={(entry) => ({
+                                        ...normaliseShow(entry),
+                                        vote_average: entry.rating ?? 0,
+                                    })}
                                 />
 
                                 <ShowRow title="Trending now" shows={trending} loading={rowsLoading} />

@@ -590,8 +590,9 @@ const WatchingCard = ({ show, isOwnProfile, onRemove, onUpdateProgress, onSaveRe
                             <input
                                 type="number"
                                 min={1}
+                                placeholder="1"
                                 value={season}
-                                onChange={(e) => setSeason(Math.max(1, Number(e.target.value)))}
+                                onChange={(e) => setSeason(e.target.value)}
                                 className="w-10 text-center bg-[#2c3440] text-[#EBDFD9] text-sm font-semibold
                                            rounded-md border border-[#DCB35A]/15 py-1 focus:outline-none
                                            focus:border-[#DCB35A]/50 [appearance:textfield]
@@ -604,8 +605,9 @@ const WatchingCard = ({ show, isOwnProfile, onRemove, onUpdateProgress, onSaveRe
                             <input
                                 type="number"
                                 min={1}
+                                placeholder="1"
                                 value={episode}
-                                onChange={(e) => setEpisode(Math.max(1, Number(e.target.value)))}
+                                onChange={(e) => setEpisode(e.target.value)}
                                 className="w-12 text-center bg-[#2c3440] text-[#EBDFD9] text-sm font-semibold
                                            rounded-md border border-[#DCB35A]/15 py-1 focus:outline-none
                                            focus:border-[#DCB35A]/50 [appearance:textfield]
