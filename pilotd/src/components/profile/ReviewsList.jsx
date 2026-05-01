@@ -22,7 +22,7 @@ const ReviewCard = ({ entry, isOwnProfile, onSave }) => {
     const [rating,      setRating]     = useState(entry.rating ?? null);
     const [reviewText,  setReviewText] = useState(entry.review ?? '');
     const [saving,      setSaving]     = useState(false);
-    
+
     // Save rating immediately when changed (no need to open edit mode just for stars)
     const handleRatingChange = async (newRating) => {
         setRating(newRating);

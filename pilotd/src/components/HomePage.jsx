@@ -368,12 +368,6 @@ function HomePage() {
                             >
                                 Get started — it's free
                             </Link>
-                            <Link
-                                to="/login"
-                                className="px-6 py-2.5 rounded-lg text-sm font-semibold text-[#EBDFD9] border border-[#2c3440] hover:border-[#D87B53]/40 transition-colors"
-                            >
-                                Sign in
-                            </Link>
                         </div>
                     )}
                 </section>
