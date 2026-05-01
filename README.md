@@ -9,12 +9,16 @@ Features:
 - Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
 - Self-hosted AI show recommender agent with Ollama, N8N and Docker
 - User authentication and database, managed with Supabase.
-
-
-To Add:
 - Rating system database
 - Watchlist, watched, and favorite lists.
 - Review/discussion section in details page for each show.
+- Browsing options for shows
+- Member profile page and community feed
+
+
+
+To Add:
+
 - Live chat capabilities for users to message each other during show runnings.
 
 <br/>
