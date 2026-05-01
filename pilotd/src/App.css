@@ -134,12 +134,6 @@
     background: var(--card);
 }
 
-.show-card-link:hover .show-card-image {
-    box-shadow:
-            0 8px 24px rgba(0, 0, 0, 0.5),
-            0 0 0 2px #378370,
-            0 0 20px rgba(220, 179, 90, 0.2);
-}
 
 .show-card-image img {
     width: 100%;

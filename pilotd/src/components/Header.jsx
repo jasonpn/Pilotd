@@ -46,7 +46,7 @@ const Header = () => {
     const displayName = user?.user_metadata?.display_name ?? user?.email ?? 'Profile';
 
     return (
-        <header className="sticky top-0 z-50 backdrop-blur-md bg-[#14181c]/95 border-b border-[#D87B53]/15 shadow-lg">
+        <header className="sticky top-0 z-50 backdrop-blur-md bg-[#14181c]/95 shadow-lg">
             <div className="wrapper">
                 <div className="flex items-center justify-between py-3.5">
 

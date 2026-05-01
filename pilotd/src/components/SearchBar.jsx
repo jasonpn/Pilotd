@@ -30,7 +30,7 @@ function SearchBar({ searchVal, setSearchVal, onSearch }) {
         <div className="mx-auto max-w-[600px] mb-6">
             <div
                 className="flex items-center gap-2 bg-[#2c3440] rounded-lg px-4 py-3.5
-                           border border-[#DCB35A]/15 transition-all duration-200
+                           transition-all duration-200
                            hover:border-[#DCB35A]/30 focus-within:border-[#DCB35A]/50
                            focus-within:shadow-[0_0_0_3px_rgba(220,179,90,0.10)]"
             >

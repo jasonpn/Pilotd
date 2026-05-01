@@ -49,8 +49,7 @@ const MemberCard = ({ member, isFollowing, isOwnCard, onToggle }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-2 p-5 rounded-xl bg-[#1f2429]
-                        border border-[#2c3440] hover:border-[#D87B53]/20 transition-colors">
+        <div className="flex flex-col items-center gap-2 p-5 rounded-xl transition-colors">
 
             {/* Avatar */}
             <Link to={`/profile/${member.username ?? member.id}`}>
