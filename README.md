@@ -1,16 +1,16 @@
 # Pilotd
- Social platform and media discovery engine for discovering, rating, and discussing TV and streaming series.
+ Social platform and media discovery engine for discovering, logging, rating, and discussing TV and streaming series.
 
 Using ReactJS, Tailwind CSS, Figma, N8N, Docker, Ollama, Supabase and The Movie Database (TMDB) API.
 
 Features:
-- Displaying shows along with its poster image, year released, and rating.
-- Autocomplete search bar, categorized alphabetically, that allows users to search for through thousands of shows within the database.
-- Dynamic details page for each show upon user click, displaying images and information about the show, cast, and similar shows.
+- Displaying shows along with its poster image.
+- Autocomplete search bar that allows users to search for through thousands of shows within the database.
+- Dynamic details page for each show, displaying images and information about the show, cast, similar shows, and member reviews.
 - Self-hosted AI show recommender agent with Ollama, N8N and Docker
 - User authentication and database, managed with Supabase.
 - Rating system database
-- Watchlist, watched, and favorite lists.
+- Watchlist, watched, watching, and favorites lists.
 - Review/discussion section in details page for each show.
 - Browsing options for shows
 - Member profile page and community feed
