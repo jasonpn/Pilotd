@@ -156,7 +156,7 @@ const Signup = () => {
                                 fullWidth required
                                 variant="outlined"
                                 disabled={loading}
-                                helperText="This is your public name — spaces and special characters allowed"
+                                helperText="This is your public name"
                                 sx={fieldSx}
                             />
 
@@ -169,7 +169,7 @@ const Signup = () => {
                                 fullWidth required
                                 variant="outlined"
                                 disabled={loading}
-                                helperText="Your unique @handle — letters, numbers, underscores only"
+                                helperText="Your unique @handle"
                                 inputProps={{ maxLength: 30 }}
                                 sx={fieldSx}
                             />
