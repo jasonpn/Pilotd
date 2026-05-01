@@ -22,9 +22,7 @@ const ReviewCard = ({ entry, isOwnProfile, onSave }) => {
     const [rating,      setRating]     = useState(entry.rating ?? null);
     const [reviewText,  setReviewText] = useState(entry.review ?? '');
     const [saving,      setSaving]     = useState(false);
-
-    const year = entry.first_air_date ? entry.first_air_date.split('-')[0] : '';
-
+    
     // Save rating immediately when changed (no need to open edit mode just for stars)
     const handleRatingChange = async (newRating) => {
         setRating(newRating);
@@ -69,7 +67,6 @@ const ReviewCard = ({ entry, isOwnProfile, onSave }) => {
                                 {entry.show_name}
                             </h3>
                         </Link>
-                        {year && <span className="text-xs text-[#89BAA2]">{year}</span>}
                     </div>
 
                     {/* Edit review text toggle */}
