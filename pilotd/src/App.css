@@ -6,7 +6,7 @@
     text-align: center;
 }
 
-/* Pattern Background - subtle dot grid with warm undertone */
+/* Pattern Background  */
 .pattern {
     position: fixed;
     top: 0;
@@ -14,9 +14,7 @@
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: #14181c radial-gradient(circle at 25px 25px, rgba(220, 179, 90, 0.02) 2%, transparent 0%),
-    radial-gradient(circle at 75px 75px, rgba(220, 179, 90, 0.02) 2%, transparent 0%);
-    background-size: 100px 100px;
+    background-image: linear-gradient(180deg, #2c3440, #14181c);
 }
 
 /* Wrapper for content with responsive padding */
@@ -169,19 +167,6 @@
     opacity: 1;
 }
 
-.show-card-rating-overlay {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    color: #14181c;
-    font-weight: 600;
-    background: linear-gradient(135deg, #378370 0%, #89BAA2 100%);
-    padding: 0.375rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.8125rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
 .show-card-content {
     margin-top: 0.75rem;
 }
@@ -206,22 +191,33 @@
     letter-spacing: -0.01em;
 }
 
-.show-card-content .rating {
+.shows-row {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--muted-foreground);
-    font-size: 0.8125rem;
+    overflow-x: auto;
+    gap: 1.25rem;
+    padding: 0.25rem 0 1.25rem;
+    list-style: none;
+    margin: 0;
+    scrollbar-width: none; /* Firefox */
 }
 
-.show-card-content .year {
-    color: var(--muted-foreground);
-    margin: 0;
-    font-size: 0.8125rem;
+.shows-row::-webkit-scrollbar {
+    display: none; /* Chrome / Safari */
 }
 
-.show-card-content .rating p:last-child {
-    margin: 0;
-    font-weight: 500;
-    color: #DCB35A;
+.shows-row .show-card {
+    flex-shrink: 0;
+    width: 140px;
+}
+
+@media (min-width: 640px) {
+    .shows-row .show-card {
+        width: 160px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .shows-row .show-card {
+        width: 175px;
+    }
 }

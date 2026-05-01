@@ -1,136 +1,71 @@
-import React from 'react';
-import { TextField, Stack, Autocomplete, InputAdornment } from '@mui/material';
+/**
+ * SearchBar.jsx
+ * Simple search input with no dropdown.
+ *
+ * Live search: onChange → setSearchVal → debounce in App → fetchShows
+ * Immediate search: Enter key or icon click → onSearch(searchVal)
+ *
+ * Props:
+ *   searchVal    {string}    - controlled input value
+ *   setSearchVal {function}  - updates value (triggers debounced fetch in parent)
+ *   onSearch     {function}  - (query: string) => void, fires immediately on Enter / icon click
+ */
+
+import React, { useRef } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchBar({ fetchedData, searchVal, setSearchVal }) {
-    const searchOptions = fetchedData.map((searchOption) => {
-        const firstLetter = searchOption.name[0].toUpperCase();
-        return {
-            firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-            ...searchOption
-        };
-    });
+function SearchBar({ searchVal, setSearchVal, onSearch }) {
+    const inputRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') onSearch(searchVal);
+    };
+
+    const handleIconClick = () => {
+        onSearch(searchVal);
+        inputRef.current?.focus();
+    };
 
     return (
-        <Stack sx={{ margin: 'auto', maxWidth: '600px' }}>
-            <Autocomplete
-                id="tv_search"
-                getOptionLabel={(searchOption) => searchOption.name}
-                options={searchOptions.sort((a, b) =>
-                    a.firstLetter.localeCompare(b.firstLetter)
+        <div className="mx-auto max-w-[600px] mb-6">
+            <div
+                className="flex items-center gap-2 bg-[#2c3440] rounded-lg px-4 py-3.5
+                           border border-[#DCB35A]/15 transition-all duration-200
+                           hover:border-[#DCB35A]/30 focus-within:border-[#DCB35A]/50
+                           focus-within:shadow-[0_0_0_3px_rgba(220,179,90,0.10)]"
+            >
+                {/* Clickable search icon — triggers immediate fetch */}
+                <button
+                    onClick={handleIconClick}
+                    className="flex-shrink-0 text-[#89BAA2] hover:text-[#D87B53] transition-colors"
+                    aria-label="Search"
+                >
+                    <SearchIcon sx={{ fontSize: '1.25rem' }} />
+                </button>
+
+                <input
+                    ref={inputRef}
+                    type="text"
+                    value={searchVal}
+                    onChange={(e) => setSearchVal(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Search for TV shows..."
+                    className="flex-1 bg-transparent text-[#e4e4e7] text-[0.9375rem]
+                               placeholder-[#89BAA2]/50 outline-none"
+                />
+
+                {/* Clear button is only visible when there's a value */}
+                {searchVal && (
+                    <button
+                        onClick={() => { setSearchVal(''); onSearch(''); inputRef.current?.focus(); }}
+                        className="flex-shrink-0 text-[#89BAA2]/50 hover:text-[#EBDFD9] transition-colors text-lg leading-none"
+                        aria-label="Clear search"
+                    >
+                        ×
+                    </button>
                 )}
-                groupBy={(searchOption) => searchOption.firstLetter}
-                noOptionsText="No results found"
-                forcePopupIcon={false}
-                sx={{
-                    backgroundColor: '#2c3440',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(220, 179, 90, 0.15)',
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                        borderColor: 'rgba(220, 179, 90, 0.3)',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-                    },
-                    '&:focus-within': {
-                        borderColor: '#EBDFD9',
-                        boxShadow: '0 0 0 3px rgba(220, 179, 90, 0.15)'
-                    }
-                }}
-                autoSelect={true}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="filled"
-                        fullWidth
-                        placeholder="Search for TV shows..."
-                        sx={{
-                            input: {
-                                color: '#e4e4e7',
-                                fontSize: '0.9375rem',
-                                fontWeight: 400
-                            },
-                            '& .MuiInputBase-root': {
-                                backgroundColor: 'transparent !important'
-                            },
-                            '& .MuiFilledInput-root:before': {
-                                display: 'none'
-                            },
-                            '& .MuiFilledInput-root:after': {
-                                display: 'none'
-                            }
-                        }}
-                        value={searchVal}
-                        onChange={(e) => {
-                            setSearchVal(e.target.value);
-                        }}
-                        slotProps={{
-                            input: {
-                                ...params.InputProps,
-                                endAdornment: (
-                                    <>
-                                        <InputAdornment position="start">
-                                            <SearchIcon
-                                                sx={{
-                                                    color: '#89BAA2',
-                                                    fontSize: '1.25rem'
-                                                }}
-                                            />
-                                        </InputAdornment>
-                                        {params.InputProps?.endAdornment}
-                                    </>
-                                ),
-                                disableUnderline: true,
-                                sx: {
-                                    padding: '0.875rem 1rem',
-                                    fontSize: '0.9375rem'
-                                }
-                            }
-                        }}
-                    />
-                )}
-                componentsProps={{
-                    paper: {
-                        sx: {
-                            backgroundColor: '#2c3440',
-                            border: '1px solid rgba(220, 179, 90, 0.2)',
-                            borderRadius: '8px',
-                            marginTop: '0.5rem',
-                            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-                            '& .MuiAutocomplete-listbox': {
-                                padding: '0.5rem',
-                                '& .MuiAutocomplete-option': {
-                                    color: '#e4e4e7',
-                                    borderRadius: '4px',
-                                    padding: '0.625rem 0.875rem',
-                                    fontSize: '0.875rem',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(220, 179, 90, 0.1)'
-                                    },
-                                    '&[aria-selected="true"]': {
-                                        backgroundColor: 'rgba(220, 179, 90, 0.15)',
-                                        color: '#DCB35A'
-                                    }
-                                },
-                                '& .MuiAutocomplete-groupLabel': {
-                                    color: '#89BAA2',
-                                    fontSize: '0.75rem',
-                                    fontWeight: 600,
-                                    backgroundColor: '#1f2429',
-                                    padding: '0.5rem 0.875rem',
-                                    borderRadius: '4px',
-                                    marginTop: '0.25rem'
-                                }
-                            },
-                            '& .MuiAutocomplete-noOptions': {
-                                color: '#89BAA2',
-                                padding: '1rem',
-                                textAlign: 'center'
-                            }
-                        }
-                    }
-                }}
-            />
-        </Stack>
+            </div>
+        </div>
     );
 }
 

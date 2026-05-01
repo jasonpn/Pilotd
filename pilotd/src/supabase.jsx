@@ -2,12 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 
 /**
  * Supabase Client Configuration
- *
- * PLACEHOLDER VALUES - Replace with your actual Supabase credentials:
- * 1. Create a new project at https://supabase.com
- * 2. Go to Project Settings > API
- * 3. Copy your Project URL and anon/public key
- * 4. Replace the values below OR use environment variables
  */
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';

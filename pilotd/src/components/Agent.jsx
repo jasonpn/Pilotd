@@ -1,5 +1,4 @@
 import React from 'react'
-//import ChatBot from "react-chatbotify"
 import {useEffect} from "react"
 import '@n8n/chat/style.css'
 import {createChat} from "@n8n/chat"
