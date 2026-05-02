@@ -72,12 +72,6 @@ const normaliseShow = (show) => ({
  *   renderLabel {function}  - optional (show) => ReactNode rendered beneath
  *                            each card, used for friend attribution labels
  *
- * When renderLabel is omitted the row is a plain <ul class="shows-row"> and
- * ShowCard sits directly inside it — valid HTML, all App.css styles intact.
- *
- * When renderLabel is provided each card is wrapped in a <div> alongside its
- * label. The outer container becomes a flex div instead of a <ul> to avoid
- * invalid nesting (div cannot be a child of ul).
  */
 const ShowRow = ({ title, shows, loading, emptyLabel, renderLabel, normalise }) => {
     const hasLabel  = typeof renderLabel === 'function';
@@ -104,7 +98,7 @@ const ShowRow = ({ title, shows, loading, emptyLabel, renderLabel, normalise }) 
         const normalised = shows.map(normaliser);
 
         if (!hasLabel) {
-            // Plain row — ShowCard's <li> sits directly in <ul>, CSS fully intact
+            // Plain row
             return (
                 <ul className="shows-row">
                     {normalised.map((show, idx) => (
@@ -114,7 +108,7 @@ const ShowRow = ({ title, shows, loading, emptyLabel, renderLabel, normalise }) 
             );
         }
 
-        // Labelled row — each card + label wrapped in a fixed-width div
+        // Labelled row
         return (
             <div className="flex gap-4 overflow-x-auto pb-3" style={{ scrollbarWidth: 'none' }}>
                 {normalised.map((show, idx) => (
@@ -145,11 +139,13 @@ const ShowRow = ({ title, shows, loading, emptyLabel, renderLabel, normalise }) 
 const ReviewerLabel = ({ entry }) => {
     const displayName = entry.user_profiles?.display_name ?? 'A member';
     const avatarUrl   = entry.user_profiles?.avatar_url   ?? null;
+    const profileUrl  = `/profile/${entry.user_id}`;
 
     return (
         <div className="flex flex-col gap-0.5 px-0.5">
             {/* Member name + avatar */}
             <div className="flex items-center gap-1.5">
+                <Link to={profileUrl} className="flex items-center gap-1.5 group/member">
                 <div className="w-4 h-4 rounded-full overflow-hidden bg-[#2c3440] flex-shrink-0
                                 flex items-center justify-center border border-[#DCB35A]/10">
                     {avatarUrl ? (
@@ -158,7 +154,10 @@ const ReviewerLabel = ({ entry }) => {
                         <PersonIcon sx={{ fontSize: 10, color: '#89BAA2' }} />
                     )}
                 </div>
-                <span className="text-xs text-[#89BAA2] truncate">{displayName}</span>
+                <span className="text-xs text-[#89BAA2] truncate group-hover/member:text-[#D87B53] transition-colors">
+                    {displayName}
+                </span>
+                </Link>
             </div>
 
             {/* Member rating + written review indicator */}
