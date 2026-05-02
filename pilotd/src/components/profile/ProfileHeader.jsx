@@ -245,7 +245,7 @@ const ProfileHeader = ({
                                         {isOwnProfile && (
                                             <button
                                                 onClick={() => { setNameText(displayName); setEditingName(true); }}
-                                                className="opacity-0 group-hover/name:opacity-100 sm:opacity-0 sm:group-hover/name:opacity-100
+                                                className="sm:opacity-0 sm:group-hover/name:opacity-100
                                                            transition-opacity p-1 rounded hover:bg-[#2c3440] flex-shrink-0"
                                                 title="Edit display name"
                                             >
