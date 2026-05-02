@@ -1,10 +1,15 @@
+/**
+ * ProfileHeader.jsx
+ * Hero section of the profile page.
+ *
+ */
+
 import React, { useRef, useState } from 'react';
 import PersonIcon    from '@mui/icons-material/Person';
 import EditIcon      from '@mui/icons-material/Edit';
 import CheckIcon     from '@mui/icons-material/Check';
 import CloseIcon     from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { CircularProgress, Tooltip } from '@mui/material';
 import { upsertUserProfile, uploadAvatar } from '../../profileService';
 
@@ -68,6 +73,24 @@ const ProfileHeader = ({
     const handleCancelBio = () => {
         setBioText(profile?.bio ?? '');
         setEditingBio(false);
+    };
+
+    // ── Display name editing ──────────────────────────────────────────────────
+
+    const handleSaveName = async () => {
+        if (!nameText.trim()) return;
+        setSavingBio(true);
+        const { error } = await upsertUserProfile(user.id, { display_name: nameText.trim() });
+        if (!error) {
+            onProfileUpdated({ display_name: nameText.trim() });
+            setEditingName(false);
+        }
+        setSavingBio(false);
+    };
+
+    const handleCancelName = () => {
+        setNameText(displayName);
+        setEditingName(false);
     };
 
     // ── Avatar upload ─────────────────────────────────────────────────────────
@@ -256,8 +279,6 @@ const ProfileHeader = ({
                                     ) : isFollowing ? (
                                         <>
                                             {/* Show "Unfollow" text on hover via group */}
-                                            <PersonRemoveIcon sx={{ fontSize: 16 }} className="hidden group-hover:block" />
-                                            <PersonAddIcon    sx={{ fontSize: 16 }} className="block group-hover:hidden" />
                                             <span className="group-hover:hidden">Following</span>
                                             <span className="hidden group-hover:inline">Unfollow</span>
                                         </>
