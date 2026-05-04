@@ -333,7 +333,7 @@ function HomePage() {
                             <Link
                                 to="/signup"
                                 className="px-6 py-2.5 rounded-lg text-sm font-semibold text-[#14181c] transition-all duration-200 hover:-translate-y-0.5"
-                                style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)', boxShadow: '0 4px 14px rgba(216,123,83,0.35)' }}
+                                style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)' }}
                             >
                                 Get started — it's free
                             </Link>
@@ -422,7 +422,7 @@ function HomePage() {
                                         <Link
                                             to="/signup"
                                             className="inline-block px-8 py-3 rounded-lg text-sm font-semibold text-[#14181c] transition-all duration-200 hover:-translate-y-0.5"
-                                            style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)', boxShadow: '0 4px 14px rgba(216,123,83,0.35)' }}
+                                            style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)'}}
                                         >
                                             Create your free account
                                         </Link>
