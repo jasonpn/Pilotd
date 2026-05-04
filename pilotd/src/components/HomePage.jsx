@@ -319,7 +319,7 @@ function HomePage() {
                                 Track every show you watch. Discover what's next.
                             </p>
                             <p className="text-[#89BAA2] text-sm mb-8 max-w-md mx-auto">
-                                Log, rate, and review TV shows — then share your taste with friends.
+                                Log, rate, and review TV shows. Share your taste with friends.
                             </p>
                         </>
                     )}
@@ -335,7 +335,7 @@ function HomePage() {
                                 className="px-6 py-2.5 rounded-lg text-sm font-semibold text-[#14181c] transition-all duration-200 hover:-translate-y-0.5"
                                 style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)' }}
                             >
-                                Get started — it's free
+                                Get started - it's free!
                             </Link>
                         </div>
                     )}
@@ -413,7 +413,7 @@ function HomePage() {
                                         Everything you need
                                     </h2>
                                     <p className="text-[#89BAA2] text-sm text-center mb-8">
-                                        Pilotd is a free tool for people who take their TV seriously.
+                                        For the binge watchers of all tastes.
                                     </p>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {FEATURES.map((f) => <FeatureCard key={f.title} {...f} />)}
