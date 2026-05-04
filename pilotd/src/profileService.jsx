@@ -713,3 +713,62 @@ export const isUsernameTaken = async (username) => {
 
     return !!data;
 };
+
+
+// ─────────────────────────────────────────────
+// FOLLOWERS / FOLLOWING LISTS
+// ─────────────────────────────────────────────
+
+/**
+ * Fetch the list of users who follow a given user, with member_stats.
+ * @param {string} userId
+ */
+export const getFollowersList = async (userId) => {
+    const { data, error } = await supabase
+        .from('user_follows')
+        .select('follower_id')
+        .eq('following_id', userId);
+
+    if (error) {
+        console.error('getFollowersList error:', error);
+        return { data: [], error };
+    }
+
+    const ids = (data ?? []).map(r => r.follower_id);
+    if (ids.length === 0) return { data: [], error: null };
+
+    const { data: stats, error: statsError } = await supabase
+        .from('member_stats')
+        .select('*')
+        .in('id', ids);
+
+    if (statsError) console.error('getFollowersList stats error:', statsError);
+    return { data: stats ?? [], error: statsError };
+};
+
+/**
+ * Fetch the list of users that a given user follows, with member_stats.
+ * @param {string} userId
+ */
+export const getFollowingList = async (userId) => {
+    const { data, error } = await supabase
+        .from('user_follows')
+        .select('following_id')
+        .eq('follower_id', userId);
+
+    if (error) {
+        console.error('getFollowingList error:', error);
+        return { data: [], error };
+    }
+
+    const ids = (data ?? []).map(r => r.following_id);
+    if (ids.length === 0) return { data: [], error: null };
+
+    const { data: stats, error: statsError } = await supabase
+        .from('member_stats')
+        .select('*')
+        .in('id', ids);
+
+    if (statsError) console.error('getFollowingList stats error:', statsError);
+    return { data: stats ?? [], error: statsError };
+};

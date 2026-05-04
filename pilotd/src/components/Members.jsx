@@ -12,115 +12,16 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
-import { CircularProgress, Tooltip } from '@mui/material';
-import VisibilityIcon  from '@mui/icons-material/Visibility';
-import StarIcon        from '@mui/icons-material/Star';
-import PersonAddIcon   from '@mui/icons-material/PersonAdd';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import PersonIcon      from '@mui/icons-material/Person';
+import { CircularProgress } from '@mui/material';
 
-import Header from './Header';
+import Header     from './Header';
+import MemberCard from './MemberCard';
 import { useAuth } from '../AuthContext';
 import {
     getMembers,
     getFollowingIds,
     toggleFollow,
 } from '../profileService';
-
-// ── MemberCard ────────────────────────────────────────────────────────────────
-
-/**
- * Single member row card.
- *
- * Props:
- *   member      - { id, display_name, avatar_url, watched_count, review_count }
- *   isFollowing - bool derived from local followingIds state in parent
- *   isOwnCard   - bool, hides the follow button on the current user's own card
- *   onToggle    - () => void, called after a successful follow/unfollow
- */
-const MemberCard = ({ member, isFollowing, isOwnCard, onToggle }) => {
-    const [pending, setPending] = useState(false);
-
-    const handleToggle = async () => {
-        setPending(true);
-        await onToggle(member.id, isFollowing);
-        setPending(false);
-    };
-
-    return (
-        <div className="flex flex-col items-center gap-2 p-5 rounded-xl transition-colors">
-
-            {/* Avatar */}
-            <Link to={`/profile/${member.username ?? member.id}`}>
-                <div className="w-20 h-20 rounded-full overflow-hidden bg-[#2c3440]
-                                border-2 border-[#DCB35A]/10 flex items-center justify-center
-                                hover:ring-2 ring-[#D87B53]/40 transition-all">
-                    {member.avatar_url ? (
-                        <img
-                            src={member.avatar_url}
-                            alt={member.display_name}
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <PersonIcon sx={{ fontSize: 36, color: '#89BAA2' }} />
-                    )}
-                </div>
-            </Link>
-
-            {/* Name */}
-            <Link
-                to={`/profile/${member.username ?? member.id}`}
-                className="font-semibold text-sm text-[#EBDFD9] hover:text-[#D87B53]
-                           transition-colors text-center truncate max-w-full"
-            >
-                {member.display_name ?? 'Member'}
-            </Link>
-
-            {/* Stats + follow button in one row */}
-            <div className="flex items-center gap-3">
-                <Tooltip title="Shows watched" placement="top">
-                    <div className="flex items-center gap-1 text-[#89BAA2]">
-                        <VisibilityIcon sx={{ fontSize: 14 }} />
-                        <span className="text-xs font-medium">{member.watched_count ?? 0}</span>
-                    </div>
-                </Tooltip>
-
-                <Tooltip title="Reviews written" placement="top">
-                    <div className="flex items-center gap-1 text-[#89BAA2]">
-                        <StarIcon sx={{ fontSize: 14, color: '#DCB35A' }} />
-                        <span className="text-xs font-medium">{member.review_count ?? 0}</span>
-                    </div>
-                </Tooltip>
-
-                {/* Follow / unfollow — hidden on own card */}
-                {!isOwnCard && (
-                    <Tooltip title={isFollowing ? 'Unfollow' : 'Follow'} placement="top">
-                        <button
-                            onClick={handleToggle}
-                            disabled={pending}
-                            className={`
-                                w-6 h-6 rounded-full flex items-center justify-center
-                                transition-all duration-150
-                                ${isFollowing
-                                ? 'bg-[#378370]/20 text-[#89BAA2] hover:bg-red-500/15 hover:text-red-400'
-                                : 'bg-[#D87B53]/15 text-[#D87B53] hover:bg-[#D87B53]/30'}
-                            `}
-                        >
-                            {pending ? (
-                                <CircularProgress size={10} sx={{ color: 'inherit' }} />
-                            ) : isFollowing ? (
-                                <PersonRemoveIcon sx={{ fontSize: 13 }} />
-                            ) : (
-                                <PersonAddIcon sx={{ fontSize: 13 }} />
-                            )}
-                        </button>
-                    </Tooltip>
-                )}
-            </div>
-        </div>
-    );
-};
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
@@ -207,7 +108,7 @@ function Members() {
                             value={searchVal}
                             onChange={(e) => setSearchVal(e.target.value)}
                             className="w-full bg-[#2c3440] text-[#EBDFD9] text-sm rounded-md px-3 py-2
-                                       border border-[#DCB35A]/15 placeholder-[#89BAA2]/50
+                                       placeholder-[#89BAA2]/50
                                        focus:outline-none focus:border-[#D87B53]/50 transition-colors"
                         />
                     </div>

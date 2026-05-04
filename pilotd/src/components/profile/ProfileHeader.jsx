@@ -5,6 +5,7 @@
  */
 
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router';
 import PersonIcon    from '@mui/icons-material/Person';
 import EditIcon      from '@mui/icons-material/Edit';
 import CheckIcon     from '@mui/icons-material/Check';
@@ -15,12 +16,26 @@ import { upsertUserProfile, uploadAvatar } from '../../profileService';
 
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
-const StatPill = ({ value, label }) => (
-    <div className="flex flex-col items-center gap-0.5">
-        <span className="text-xl font-bold text-white leading-none">{value}</span>
-        <span className="text-xs text-[#89BAA2] uppercase tracking-wider">{label}</span>
-    </div>
-);
+/**
+ * StatPill — clickable when `to` is provided, plain div otherwise.
+ */
+const StatPill = ({ value, label, to }) => {
+    const inner = (
+        <>
+            <span className="text-xl font-bold text-white leading-none">{value}</span>
+            <span className="text-xs text-[#89BAA2] uppercase tracking-wider">{label}</span>
+        </>
+    );
+    if (to) {
+        return (
+            <Link to={to} className="flex flex-col items-center gap-0.5 hover:opacity-75 transition-opacity">
+                {inner}
+            </Link>
+        );
+    }
+    return <div className="flex flex-col items-center gap-0.5">{inner}</div>;
+};
+
 
 const ProfileHeader = ({
                            user,
@@ -51,6 +66,9 @@ const ProfileHeader = ({
         ?? 'User';
 
     const avatarUrl = profile?.avatar_url ?? null;
+    const profileBaseUrl = profile?.username
+        ? `/profile/${profile.username}`
+        : profile?.id ? `/profile/${profile.id}` : null;
 
     // Build blurred backdrop from favourite posters
     const backdropPosters = favorites
@@ -294,11 +312,11 @@ const ProfileHeader = ({
 
                         {/* Stats */}
                         <div className="flex items-center gap-6 mt-3">
-                            <StatPill value={watchedCount}           label="Watched"   />
+                            <StatPill value={watchedCount}           label="Watched" />
                             <div className="w-px h-8 bg-[#2c3440]" />
-                            <StatPill value={followCounts.following} label="Following" />
+                            <StatPill value={followCounts.following} label="Following" to={profileBaseUrl ? `${profileBaseUrl}/following` : undefined} />
                             <div className="w-px h-8 bg-[#2c3440]" />
-                            <StatPill value={followCounts.followers} label="Followers" />
+                            <StatPill value={followCounts.followers} label="Followers" to={profileBaseUrl ? `${profileBaseUrl}/followers` : undefined} />
                         </div>
                     </div>
                 </div>
