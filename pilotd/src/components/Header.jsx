@@ -9,6 +9,8 @@ import PersonIcon     from '@mui/icons-material/Person';
 import LogoutIcon     from '@mui/icons-material/Logout';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getUserProfile } from '../profileService';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+
 
 const Header = () => {
     const { user, signOut } = useAuth();
@@ -71,6 +73,15 @@ const Header = () => {
                         <nav className="flex items-center gap-5">
                             <Link to="/shows"   className="text-sm font-bold text-[#89BAA2] hover:text-[#EBDFD9] transition-colors">Shows</Link>
                             <Link to="/members" className="text-sm font-bold text-[#89BAA2] hover:text-[#EBDFD9] transition-colors">Members</Link>
+                            {user && (
+                                <Link
+                                    to="/activity"
+                                    className="text-[#89BAA2] hover:text-[#EBDFD9] transition-colors"
+                                    title="Activity"
+                                >
+                                    <NotificationsNoneIcon sx={{ fontSize: 22 }} />
+                                </Link>
+                            )}
                         </nav>
 
                         {user ? (

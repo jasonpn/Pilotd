@@ -772,3 +772,128 @@ export const getFollowingList = async (userId) => {
     if (statsError) console.error('getFollowingList stats error:', statsError);
     return { data: stats ?? [], error: statsError };
 };
+
+
+// ─────────────────────────────────────────────
+// ACTIVITY FEED
+// ─────────────────────────────────────────────
+
+/**
+ * Fetch all activity relevant to the current user, merged and sorted newest-first.
+ *
+ * Sources:
+ *   1. Show tracking activity from users they follow (user_shows)
+ *   2. Likes on their own reviews (review_likes)
+ *   3. Comments on their own reviews (review_comments)
+ *   4. New followers (user_follows)
+ *
+ * Each returned item has a `type` field:
+ *   'show_tracked' | 'review_liked' | 'review_commented' | 'new_follower'
+ *
+ * Profiles are fetched separately to avoid cross-schema FK issues.
+ *
+ * @param {string}   userId       - current user's ID
+ * @param {string[]} followingIds - IDs of users they follow
+ */
+export const getActivityFeed = async (userId, followingIds) => {
+    // Run all four queries in parallel
+    const [
+        showsRes,
+        likesRes,
+        commentsRes,
+        followersRes,
+    ] = await Promise.all([
+        // 1. Show activity from followed users
+        followingIds.length > 0
+            ? supabase
+                .from('user_shows')
+                .select('user_id, show_id, show_name, poster_path, status, rating, review, created_at, updated_at')
+                .in('user_id', followingIds)
+                .order('created_at', { ascending: false })
+                .limit(50)
+            : Promise.resolve({ data: [], error: null }),
+
+        // 2. Likes on my reviews
+        supabase
+            .from('review_likes')
+            .select('user_id, show_id, reviewer_id, created_at')
+            .eq('reviewer_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(30),
+
+        // 3. Comments on my reviews
+        supabase
+            .from('review_comments')
+            .select('id, user_id, show_id, reviewer_id, comment, created_at')
+            .eq('reviewer_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(30),
+
+        // 4. New followers
+        supabase
+            .from('user_follows')
+            .select('follower_id, created_at')
+            .eq('following_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(30),
+    ]);
+
+    // Collect all unique actor user IDs to fetch profiles in one query
+    const actorIds = new Set([
+        ...(showsRes.data    ?? []).map(r => r.user_id),
+        ...(likesRes.data    ?? []).map(r => r.user_id),
+        ...(commentsRes.data ?? []).map(r => r.user_id),
+        ...(followersRes.data ?? []).map(r => r.follower_id),
+    ]);
+
+    let profileMap = {};
+    if (actorIds.size > 0) {
+        const { data: profiles } = await supabase
+            .from('user_profiles')
+            .select('id, username, display_name, avatar_url')
+            .in('id', [...actorIds]);
+        profileMap = Object.fromEntries((profiles ?? []).map(p => [p.id, p]));
+    }
+
+    // Normalise each source into a unified activity item shape
+    const items = [
+        ...(showsRes.data ?? []).map(r => ({
+            type:       'show_tracked',
+            actorId:    r.user_id,
+            actor:      profileMap[r.user_id] ?? null,
+            showId:     r.show_id,
+            showName:   r.show_name,
+            posterPath: r.poster_path,
+            status:     r.status,
+            rating:     r.rating,
+            hasReview:  !!r.review,
+            timestamp:  r.created_at,
+        })),
+        ...(likesRes.data ?? []).map(r => ({
+            type:      'review_liked',
+            actorId:   r.user_id,
+            actor:     profileMap[r.user_id] ?? null,
+            showId:    r.show_id,
+            timestamp: r.created_at,
+        })),
+        ...(commentsRes.data ?? []).map(r => ({
+            type:      'review_commented',
+            actorId:   r.user_id,
+            actor:     profileMap[r.user_id] ?? null,
+            showId:    r.show_id,
+            comment:   r.comment,
+            timestamp: r.created_at,
+        })),
+        ...(followersRes.data ?? []).map(r => ({
+            type:      'new_follower',
+            actorId:   r.follower_id,
+            actor:     profileMap[r.follower_id] ?? null,
+            timestamp: r.created_at,
+        })),
+    ];
+
+    // Sort all items newest-first
+    items.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    return { data: items, error: null };
+};

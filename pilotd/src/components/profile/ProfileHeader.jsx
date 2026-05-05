@@ -248,9 +248,9 @@ const ProfileHeader = ({
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-2">
-                                        <h1
-                                            className="text-2xl sm:text-3xl font-bold leading-tight"
+                                    <div className="flex items-baseline gap-2">
+                                        <p
+                                            className="text-2xl sm:text-3xl font-bold leading-none m-0"
                                             style={{
                                                 background: 'white',
                                                 WebkitBackgroundClip: 'text',
@@ -259,7 +259,7 @@ const ProfileHeader = ({
                                             }}
                                         >
                                             {displayName}
-                                        </h1>
+                                        </p>
                                         {isOwnProfile && (
                                             <button
                                                 onClick={() => { setNameText(displayName); setEditingName(true); }}

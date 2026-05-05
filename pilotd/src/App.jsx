@@ -13,6 +13,7 @@ import Profile  from './components/Profile.jsx';
 import Shows    from './components/Shows.jsx';
 import Members   from './components/Members.jsx';
 import FollowList from './components/FollowList';
+import ActivityPage from './components/ActivityPage';
 
 /**
  * App.jsx
@@ -32,6 +33,7 @@ function App() {
                         <Route path="/profile/:username/following"  element={<FollowList mode="following" />} />
                         <Route path="/login"           element={<Login />} />
                         <Route path="/signup"          element={<Signup />} />
+                        <Route path="/activity" element={<ActivityPage />} />
                         <Route path="/profile"         element={<Profile />} />
                         <Route path="/profile/:userId" element={<Profile />} />
                     </Routes>
