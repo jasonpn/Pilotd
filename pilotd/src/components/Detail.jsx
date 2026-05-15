@@ -332,6 +332,9 @@ const Detail = () => {
     )
     const userRating = trackedEntry?.rating ?? null
 
+    // Progress badge — only shown when actively watching
+    const watchingEntry = show ? watching.find(s => s.show_id === show.id) ?? null : null
+
     // Pass full show object so submitReview can auto-mark as watching if needed
     const handleRatingChange = async (newRating) => {
         if (!show) return
@@ -462,6 +465,13 @@ const Detail = () => {
                                     {user ? (
                                         <>
                                             <WatchActions show={show} />
+                                            {watchingEntry && (
+                                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full
+                                                                bg-[#DCB35A]/15 border border-[#DCB35A]/30
+                                                                text-[#DCB35A] text-xs font-bold tracking-wide">
+                                                    S{watchingEntry.current_season ?? 1}&thinsp;·&thinsp;E{watchingEntry.current_episode ?? 1}
+                                                </div>
+                                            )}
                                             <div className="flex items-center gap-2">
                                                 <span className="text-gray-400 text-sm">Your rating:</span>
                                                 <StarRating value={userRating} onChange={handleRatingChange} size="md" showLabel />
@@ -506,6 +516,13 @@ const Detail = () => {
                         {user ? (
                             <div className="flex flex-col gap-3">
                                 <WatchActions show={show} />
+                                {watchingEntry && (
+                                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full self-start
+                                                    bg-[#DCB35A]/15 border border-[#DCB35A]/30
+                                                    text-[#DCB35A] text-xs font-bold tracking-wide">
+                                        S{watchingEntry.current_season ?? 1}&thinsp;·&thinsp;E{watchingEntry.current_episode ?? 1}
+                                    </div>
+                                )}
                                 <div className="flex items-center gap-2">
                                     <span className="text-gray-400 text-sm">Your rating:</span>
                                     <StarRating value={userRating} onChange={handleRatingChange} size="md" showLabel />
