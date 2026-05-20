@@ -26,12 +26,3 @@ To Add:
 <br/>
 <img width="1661" height="965" alt="Screenshot 2026-04-13 at 5 15 19 PM (2)" src="https://github.com/user-attachments/assets/0fc5a9d9-4353-41e8-bca3-e5f28897b618" />
 <br/>
-
-
-
-
-<h3>User login</h3>
-<img width="506" height="483" alt="Screenshot 2026-04-13 at 5 15 56 PM (2)" src="https://github.com/user-attachments/assets/13020c2a-2cff-4ea2-afb4-98d2b09b98d2" />
-
-
-</details>
