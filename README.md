@@ -1,6 +1,8 @@
 # Pilotd
  Social platform and media discovery engine for discovering, logging, rating, and discussing TV and streaming series.
 
+https://pilotd.pages.dev/
+
 Using ReactJS, Tailwind CSS, Figma, N8N, Docker, Ollama, Supabase and The Movie Database (TMDB) API.
 
 Features:
