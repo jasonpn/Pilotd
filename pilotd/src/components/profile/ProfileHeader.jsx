@@ -11,10 +11,53 @@ import EditIcon      from '@mui/icons-material/Edit';
 import CheckIcon     from '@mui/icons-material/Check';
 import CloseIcon     from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LinkIcon       from '@mui/icons-material/Link';
 import { CircularProgress, Tooltip } from '@mui/material';
 import { upsertUserProfile, uploadAvatar } from '../../profileService';
 
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+
+/**
+ * Strips protocol and www. from a URL for compact display.
+ * e.g. "https://www.mysite.com/path" → "mysite.com/path"
+ * Social handles (@username) are returned unchanged.
+ */
+const formatWebsite = (url) =>
+    url ? url.replace(/^https?:\/\/(www\.)?/, '') : '';
+
+/**
+ * WebsitePill — renders a website or social handle in the profile meta row.
+ *
+ * Only render an <a> element when the stored value provably begins with http:// or https://.
+ */
+
+const WebsitePill = ({ value }) => {
+    const isExternalLink = /^https?:\/\//i.test(value);
+    const label          = isExternalLink ? formatWebsite(value) : value;
+    const cls            = 'flex items-center gap-1 text-xs text-[#89BAA2]/60';
+
+    if (isExternalLink) {
+        return (
+            <a
+                href={value}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${cls} hover:text-[#D87B53] transition-colors`}
+            >
+                <LinkIcon sx={{ fontSize: 13 }} />
+                {label}
+            </a>
+        );
+    }
+
+    return (
+        <span className={cls}>
+            <LinkIcon sx={{ fontSize: 13 }} />
+            {label}
+        </span>
+    );
+};
 
 /**
  * StatPill — clickable when `to` is provided, plain div otherwise.
@@ -52,10 +95,8 @@ const ProfileHeader = ({
                        }) => {
     const fileInputRef = useRef(null);
 
-    const [editingBio,        setEditingBio]        = useState(false);
-    const [bioText,           setBioText]           = useState(profile?.bio ?? '');
-    const [editingName,       setEditingName]       = useState(false);
-    const [nameText,          setNameText]          = useState('');
+    const [editingBio,      setEditingBio]      = useState(false);
+    const [bioText,         setBioText]         = useState(profile?.bio ?? '');
     const [savingBio,       setSavingBio]       = useState(false);
     const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
@@ -91,24 +132,6 @@ const ProfileHeader = ({
     const handleCancelBio = () => {
         setBioText(profile?.bio ?? '');
         setEditingBio(false);
-    };
-
-    // ── Display name editing ──────────────────────────────────────────────────
-
-    const handleSaveName = async () => {
-        if (!nameText.trim()) return;
-        setSavingBio(true);
-        const { error } = await upsertUserProfile(user.id, { display_name: nameText.trim() });
-        if (!error) {
-            onProfileUpdated({ display_name: nameText.trim() });
-            setEditingName(false);
-        }
-        setSavingBio(false);
-    };
-
-    const handleCancelName = () => {
-        setNameText(displayName);
-        setEditingName(false);
     };
 
     // ── Avatar upload ─────────────────────────────────────────────────────────
@@ -214,73 +237,47 @@ const ProfileHeader = ({
                     <div className="flex-1 min-w-0 pb-1">
                         {/* Name row */}
                         <div className="flex items-start justify-between gap-3 flex-wrap">
-                            <div className="group/name">
-                                {isOwnProfile && editingName ? (
-                                    <div className="flex items-center gap-2">
-                                        <input
-                                            type="text"
-                                            value={nameText}
-                                            onChange={(e) => setNameText(e.target.value)}
-                                            maxLength={50}
-                                            autoFocus
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') handleSaveName();
-                                                if (e.key === 'Escape') handleCancelName();
-                                            }}
-                                            className="bg-[#2c3440] text-[#EBDFD9] text-xl font-bold rounded-md
-                                                       px-2 py-1 border border-[#DCB35A]/30 focus:outline-none
-                                                       focus:border-[#DCB35A]/60 w-48 sm:w-64"
-                                        />
-                                        <button
-                                            onClick={handleSaveName}
-                                            disabled={savingBio}
-                                            className="p-1 rounded hover:bg-[#2c3440] text-[#378370] transition-colors"
-                                        >
-                                            {savingBio
-                                                ? <CircularProgress size={12} sx={{ color: 'inherit' }} />
-                                                : <CheckIcon sx={{ fontSize: 16 }} />}
-                                        </button>
-                                        <button
-                                            onClick={handleCancelName}
-                                            className="p-1 rounded hover:bg-[#2c3440] text-[#89BAA2] transition-colors"
-                                        >
-                                            <CloseIcon sx={{ fontSize: 16 }} />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-baseline gap-2">
-                                        <p
-                                            className="text-2xl sm:text-3xl font-bold leading-none m-0"
-                                            style={{
-                                                background: 'white',
-                                                WebkitBackgroundClip: 'text',
-                                                WebkitTextFillColor: 'transparent',
-                                                backgroundClip: 'text',
-                                            }}
-                                        >
-                                            {displayName}
-                                        </p>
-                                        {isOwnProfile && (
-                                            <button
-                                                onClick={() => { setNameText(displayName); setEditingName(true); }}
-                                                className="sm:opacity-0 sm:group-hover/name:opacity-100
-                                                           transition-opacity p-1 rounded hover:bg-[#2c3440] flex-shrink-0"
-                                                title="Edit display name"
-                                            >
-                                                <EditIcon sx={{ fontSize: 14, color: '#89BAA2' }} />
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
+                            <div>
+                                <p
+                                    className="text-2xl sm:text-3xl font-bold leading-none m-0"
+                                    style={{
+                                        background: 'white',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
+                                        backgroundClip: 'text',
+                                    }}
+                                >
+                                    {displayName}
+                                </p>
+
+                                {/* @username + optional pronouns on the same line */}
                                 {profile?.username && (
                                     <p className="text-[#89BAA2]/70 text-sm mt-0.5">
                                         @{profile.username}
+                                        {profile?.pronouns && (
+                                            <span className="ml-2 text-[#89BAA2]/45">
+                                                · {profile.pronouns}
+                                            </span>
+                                        )}
                                     </p>
                                 )}
                             </div>
 
-                            {/* Follow / unfollow — public profiles only */}
-                            {!isOwnProfile && (
+                            {/* Own profile → Edit Profile link; other → Follow/Unfollow */}
+                            {isOwnProfile ? (
+                                <Link
+                                    to="/settings"
+                                    className="flex items-center gap-1.5 px-4 py-2 rounded-md
+                                               text-sm font-semibold flex-shrink-0
+                                               text-[#EBDFD9] bg-[#2c3440]
+                                               border border-[#DCB35A]/20
+                                               hover:border-[#DCB35A]/40 hover:bg-[#3a4452]
+                                               transition-all"
+                                >
+                                    <EditIcon sx={{ fontSize: 14 }} />
+                                    Edit Profile
+                                </Link>
+                            ) : (
                                 <button
                                     onClick={onToggleFollow}
                                     disabled={followPending}
@@ -296,7 +293,6 @@ const ProfileHeader = ({
                                         <CircularProgress size={14} sx={{ color: 'inherit' }} />
                                     ) : isFollowing ? (
                                         <>
-                                            {/* Show "Unfollow" text on hover via group */}
                                             <span className="group-hover:hidden">Following</span>
                                             <span className="hidden group-hover:inline">Unfollow</span>
                                         </>
@@ -318,6 +314,21 @@ const ProfileHeader = ({
                             <div className="w-px h-8 bg-[#2c3440]" />
                             <StatPill value={followCounts.followers} label="Followers" to={profileBaseUrl ? `${profileBaseUrl}/followers` : undefined} />
                         </div>
+
+                        {/* Location + website — only rendered when at least one is set */}
+                        {(profile?.location || profile?.website) && (
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3">
+                                {profile?.location && (
+                                    <span className="flex items-center gap-1 text-xs text-[#89BAA2]/60">
+                                        <LocationOnIcon sx={{ fontSize: 13 }} />
+                                        {profile.location}
+                                    </span>
+                                )}
+                                {profile?.website && (
+                                    <WebsitePill value={profile.website} />
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 

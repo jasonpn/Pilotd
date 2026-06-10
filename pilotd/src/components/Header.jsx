@@ -8,6 +8,7 @@ import { useAuth } from '../AuthContext';
 import PersonIcon     from '@mui/icons-material/Person';
 import LogoutIcon     from '@mui/icons-material/Logout';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SettingsIcon  from '@mui/icons-material/Settings';
 import { getUserProfile } from '../profileService';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
@@ -115,6 +116,14 @@ const Header = () => {
                                         >
                                             <PersonIcon sx={{ fontSize: 16 }} />
                                             Profile
+                                        </Link>
+                                        <Link
+                                            to="/settings"
+                                            onClick={() => setMobileOpen(false)}
+                                            className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-[#EBDFD9] hover:bg-[#2c3440] hover:text-[#D87B53] transition-colors"
+                                        >
+                                            <SettingsIcon sx={{ fontSize: 16 }} />
+                                            Edit Profile
                                         </Link>
                                         <div className="border-t border-[#2c3440]" />
                                         <button

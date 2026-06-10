@@ -1,11 +1,6 @@
 /**
  * HomePage.jsx
  *
- * Logged-out:  Hero → Trending → Features → Community
- * Logged-in:   Personal greeting → Friends' activity → Trending → Community
- *
- * ShowRow handles both plain TMDB rows and friend-activity rows via an
- * optional `renderLabel` prop, no separate FriendActivityRow needed.
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
@@ -183,7 +178,7 @@ const ReviewerLabel = ({ entry }) => {
 // ── Feature cards (logged-out only) ───────────────────────────────────────────
 
 const FeatureCard = ({ icon: Icon, title, description, iconColor }) => (
-    <div className="flex flex-col items-start gap-3 p-5 rounded-xl bg-[#1f2429] border border-[#2c3440] hover:border-[#D87B53]/30 transition-colors">
+    <div className="flex flex-col items-start gap-3 p-5 rounded-xl bg-[#1f2429] border border-[#2c3440] transition-colors">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${iconColor}18` }}>
             <Icon sx={{ fontSize: 22, color: iconColor }} />
         </div>

@@ -50,18 +50,33 @@ export const upsertUserProfile = async (userId, updates) => {
 /**
  * Upload a profile avatar image and return the public URL.
  *
- * Path structure: <userId>/avatar.<ext>
- * The userId is the top-level folder, which is what the storage RLS policy
- * checks against — `(storage.foldername(name))[1] = auth.uid()::text`.
- *
  * @param {string} userId
- * @param {File} file
+ * @param {File}   file
  */
 export const uploadAvatar = async (userId, file) => {
     const ext  = file.name.split('.').pop();
-    // userId is the folder so the RLS policy `foldername[1] = auth.uid()` matches
     const path = `${userId}/avatar.${ext}`;
 
+    // ── Step 1: remove any pre-existing avatar files ──────────────────────────
+    const { data: existing, error: listError } = await supabase.storage
+        .from('profile-images')
+        .list(userId);
+
+    if (listError) {
+        // Non-fatal: log and continue — a stale file is better than a failed upload.
+        console.warn('uploadAvatar: could not list existing files:', listError);
+    } else if (existing?.length > 0) {
+        const toDelete = existing.map((f) => `${userId}/${f.name}`);
+        const { error: removeError } = await supabase.storage
+            .from('profile-images')
+            .remove(toDelete);
+        if (removeError) {
+            // Also non-fatal: old files may linger, but the upload should still succeed.
+            console.warn('uploadAvatar: could not remove old avatar files:', removeError);
+        }
+    }
+
+    // ── Step 2: upload the new file ───────────────────────────────────────────
     const { error: uploadError } = await supabase.storage
         .from('profile-images')
         .upload(path, file, { upsert: true });
@@ -314,9 +329,6 @@ export const toggleFollow = async (followerId, followingId, currentlyFollowing) 
  * Fetch the most recent show interactions across all users.
  * Used on the homepage to show what members are watching.
  *
- * Requires user_shows SELECT policy to be public (`using (true)`).
- * See README-homepage.md for the SQL to enable this.
- *
  * @param {number} limit  - number of entries to return (default 12)
  */
 export const getRecentCommunityActivity = async (limit = 12) => {
@@ -378,8 +390,6 @@ export const getMembers = async () => {
 
 /**
  * Fetch the list of user IDs that the current user follows.
- * Used by the Members page to derive follow state locally
- * without a per-member DB call.
  *
  * @param {string} userId - the current user's ID
  */
@@ -452,7 +462,6 @@ export const getFriendActivity = async (followingIds, limit = 16) => {
 /**
  * Fetch all member reviews for a specific show.
  * Only returns rows that have a rating or written review.
- * Profiles are fetched separately to avoid the cross-schema FK issue.
  *
  * @param {number} showId - TMDB show ID
  */
@@ -556,7 +565,6 @@ export const toggleReviewLike = async (userId, showId, reviewerId) => {
 /**
  * Fetch all comments for every review of a given show.
  * Returns a map keyed by reviewer_id → array of comment objects.
- * Profiles fetched separately to avoid cross-schema FK issue.
  *
  * @param {number} showId
  */
@@ -790,7 +798,6 @@ export const getFollowingList = async (userId) => {
  * Each returned item has a `type` field:
  *   'show_tracked' | 'review_liked' | 'review_commented' | 'new_follower'
  *
- * Profiles are fetched separately to avoid cross-schema FK issues.
  *
  * @param {string}   userId       - current user's ID
  * @param {string[]} followingIds - IDs of users they follow
