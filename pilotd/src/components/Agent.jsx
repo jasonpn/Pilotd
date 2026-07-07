@@ -1,5 +1,3 @@
-import React from 'react'
-import {useEffect} from "react"
 /**
  * Agent.jsx
  * AI TV show recommendation chat widget.
