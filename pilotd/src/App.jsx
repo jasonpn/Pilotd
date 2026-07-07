@@ -15,6 +15,7 @@ import Members   from './components/Members.jsx';
 import FollowList from './components/FollowList';
 import ActivityPage from './components/ActivityPage';
 import Settings     from './components/Settings.jsx';
+import Agent from "./components/Agent.jsx";
 
 /**
  * App.jsx
@@ -25,6 +26,7 @@ function App() {
         <AuthProvider>
             <ShowTrackingProvider>
                 <BrowserRouter>
+                    <Agent />
                     <Routes>
                         <Route path="/"                element={<HomePage />} />
                         <Route path="/show/:id"        element={<Detail />} />
