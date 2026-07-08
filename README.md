@@ -46,7 +46,7 @@ Live: [pilotd.pages.dev](https://pilotd.pages.dev)
 - Secured behind Supabase JWT auth for registered members only
 - Rate limited per user via **Upstash Redis** (atomic RPM + RPD counters with TTL)
 - Works through **Supabase Edge Function**
-- Alternate self-hosted version built with Ollama, n8n, and Docker for local/private deployment
+- Alternate self-hosted version built with **Ollama, n8n,** and **Docker** for local/private deployment
 
 ### Social Media
 - Public profile pages with full profile editing and settings
