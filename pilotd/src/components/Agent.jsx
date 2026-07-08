@@ -133,6 +133,7 @@ const Agent = () => {
 
     const bottomRef  = useRef(null);
     const inputRef   = useRef(null);
+    const panelRef = useRef(null);
 
     // Auto-scroll to latest message
     useEffect(() => {
@@ -142,6 +143,12 @@ const Agent = () => {
     // Focus input when chat opens
     useEffect(() => {
         if (open) setTimeout(() => inputRef.current?.focus(), 100);
+    }, [open]);
+
+    // Lock body scroll when panel is open on mobile
+    useEffect(() => {
+        document.body.style.overflow = open ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
     }, [open]);
 
     // ── Send message ───────────────────────────────────────────────────────────
@@ -210,31 +217,35 @@ const Agent = () => {
 
     // ── Render ─────────────────────────────────────────────────────────────────
 
+    const resetTextArea = () => {
+        if (inputRef.current) inputRef.current.style.height = 'auto';
+    };
+
     return (
         <>
             {/* ── Floating toggle button ───────────────────────────────────── */}
             <button
                 onClick={() => setOpen((prev) => !prev)}
                 aria-label={open ? 'Close AI assistant' : 'Open AI assistant'}
-                className="fixed bottom-5 right-5 z-50 w-13 h-13 rounded-full shadow-xl
-                           flex items-center justify-center transition-all duration-200
-                           hover:scale-105 active:scale-95"
+                className={`fixed bottom-5 right-5 z-50 rounded-full shadow-xl 
+                flex items-center justify-center transition-all duration-200
+                hover:scale-105 active:scale-95 ${open ? 'hidden sm:flex' : 'flex'}`}
+
                 style={{ background: 'linear-gradient(135deg, #D87B53 0%, #EF8D72 100%)',
                     width: '52px', height: '52px' }}
             >
-                {open
-                    ? <CloseIcon sx={{ color: 'white', fontSize: 22 }} />
-                    : <ChatBubbleOutlineOutlinedIcon sx={{ color: 'white', fontSize: 22 }} />}
+                <ChatBubbleOutlineOutlinedIcon sx={{ color: 'white', fontSize: 22 }} />
             </button>
 
             {/* ── Chat panel ───────────────────────────────────────────────── */}
             {open && (
                 <div
                     className="fixed z-50 flex flex-col
-                               bottom-0 right-0 w-full h-[100dvh]
-                               sm:bottom-20 sm:right-5 sm:w-[360px] sm:h-[520px]
-                               sm:rounded-2xl overflow-hidden
-                               bg-[#1a1f28] border border-[#2c3440] shadow-2xl"
+                    inset-0
+                    sm:inset-auto sm:bottom-20 sm:right-5
+                    sm:w-[360px] sm:h-[520px] sm:rounded-2xl
+                    overflow-hidden
+                    bg-[#1a1f28] border border-[#2c3440] shadow-2xl"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3.5
@@ -262,10 +273,10 @@ const Agent = () => {
                             <button
                                 onClick={() => setOpen(false)}
                                 aria-label="Close"
-                                className="sm:hidden text-white/70 hover:text-white
-                                           transition-colors p-1 rounded hover:bg-white/10"
+                                className="text-white/70 hover:text-white
+                                           transition-colors p-1.5 rounded hover:bg-white/10"
                             >
-                                <CloseIcon sx={{ fontSize: 18 }} />
+                                <CloseIcon sx={{ fontSize: 20 }} />
                             </button>
                         </div>
                     </div>
@@ -294,7 +305,7 @@ const Agent = () => {
                     ) : (
                         <>
                             {/* Messages */}
-                            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3
+                            <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-3
                                             scrollbar-thin scrollbar-thumb-[#2c3440]">
                                 {messages.map((msg, idx) => (
                                     <ChatBubble key={idx} message={msg} />
@@ -304,12 +315,17 @@ const Agent = () => {
                             </div>
 
                             {/* Input */}
-                            <div className="flex items-end gap-2 px-3 py-3
-                                            border-t border-[#2c3440] flex-shrink-0">
+                            <div className="flex items-end gap-2 px-3 pt-3
+                                       pb-[max(12px,env(safe-area-inset-bottom))]
+                                       border-t border-[#2c3440] flex-shrink-0 bg-[#1a1f28]">
                                 <textarea
                                     ref={inputRef}
                                     value={input}
-                                    onChange={(e) => setInput(e.target.value)}
+                                    onChange={(e) => {
+                                        setInput(e.target.value)
+                                        e.target.style.height = 'auto'
+                                        e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`
+                                    }}
                                     onKeyDown={handleKeyDown}
                                     placeholder="Give me a vibe you're looking for…"
                                     maxLength={1000}
@@ -320,17 +336,12 @@ const Agent = () => {
                                                border border-[#DCB35A]/10
                                                focus:outline-none focus:border-[#D87B53]/40
                                                placeholder-[#89BAA2]/40 transition-colors
-                                               disabled:opacity-50 max-h-28"
-                                    style={{ lineHeight: '1.5' }}
-                                    onInput={(e) => {
-                                        // Auto-grow textarea up to max-h-28
-                                        e.target.style.height = 'auto';
-                                        e.target.style.height = `${e.target.scrollHeight}px`;
-                                    }}
+                                               disabled:opacity-50"
+                                    style={{ lineHeight: '1.5', maxHeight: '120px' }}
                                 />
                                 <button
-                                    onClick={sendMessage}
-                                    disabled={!input.trim() || isLoading || cooldown}
+                                    onClick={() => {sendMessage(); resetTextArea(); }}
+                                    disabled={!input.trim() || isLoading}
                                     aria-label="Send message"
                                     className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center
                                                justify-center transition-all active:scale-95
