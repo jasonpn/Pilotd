@@ -241,7 +241,7 @@ const Agent = () => {
             {open && (
                 <div
                     className="fixed z-50 flex flex-col
-                    inset-0
+                    bottom-0 left-0 right-0 h-[70vh] rounded-t-2xl
                     sm:inset-auto sm:bottom-20 sm:right-5
                     sm:w-[360px] sm:h-[520px] sm:rounded-2xl
                     overflow-hidden
